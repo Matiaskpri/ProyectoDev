@@ -1,0 +1,20 @@
+<p>formulario-jugador works!</p>
+<div class="formulario-container">
+  <h2>{{ modoEdicion ? 'Editar jugador' : 'Nuevo jugador' }}</h2>
+
+  <form [formGroup]="jugadorForm" (ngSubmit)="onSubmit()">
+    <label for="nombre">Nombre</label>
+    <input id="nombre" formControlName="nombre" />
+
+    <label for="posicion">Posición</label>
+    <input id="posicion" formControlName="posicion" />
+
+    <label for="equipo">Equipo</label>
+    <input id="equipo" formControlName="equipo" />
+
+    <label for="valor">Valor (millones)</label>
+    <input id="valor" type="number" formControlName="valor" />
+
+    <button type="submit">{{ modoEdicion ? 'Actualizar' : 'Crear' }}</button>
+  </form>
+</div>

@@ -1,0 +1,13 @@
+<p>listado-jugadores works!</p>
+<div class="listado-container">
+  <h2>Listado de jugadores</h2>
+  <button routerLink="/nuevo">Agregar nuevo jugador</button>
+
+  <ul class="jugadores-lista">
+    <!-- Acá se va a renderizar la lista -->
+    <li *ngFor="let jugador of jugadores">
+      <strong>{{ jugador.nombre }}</strong> - {{ jugador.posicion }}
+      <button routerLink="/detalle/{{ jugador.id }}">Ver detalle</button>
+    </li>
+  </ul>
+</div>

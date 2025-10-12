@@ -1,0 +1,12 @@
+<p>detalle-jugador works!</p>
+<div class="detalle-container">
+  <h2>Detalle del jugador</h2>
+
+  <div *ngIf="jugador">
+    <p><strong>Nombre:</strong> {{ jugador.nombre }}</p>
+    <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
+    <p><strong>Equipo:</strong> {{ jugador.equipo }}</p>
+    <p><strong>Valor:</strong> {{ jugador.valor }} millones</p>
+    <button routerLink="/listado">Volver al listado</button>
+  </div>
+</div>
