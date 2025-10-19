@@ -7,7 +7,7 @@
     <!-- Acá se va a renderizar la lista -->
     <li *ngFor="let jugador of jugadores">
       <strong>{{ jugador.nombre }}</strong> - {{ jugador.posicion }}
-      <button routerLink="/detalle/{{ jugador.id }}">Ver detalle</button>
+      <button *ngIf="jugador.id !== undefined" (click)="verDetalle(jugador.id)">Ver detalle</button>
     </li>
   </ul>
 </div>

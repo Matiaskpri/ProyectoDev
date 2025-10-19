@@ -9,4 +9,11 @@
     <p><strong>Valor:</strong> {{ jugador.valor }} millones</p>
     <button routerLink="/listado">Volver al listado</button>
   </div>
+
+  <div *ngIf="!jugador">
+  <p>Cargando jugador o no encontrado...</p>
+  <button routerLink="/listado">Volver al listado</button>
+</div>
+
+
 </div>
