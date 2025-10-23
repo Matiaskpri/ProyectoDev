@@ -1,7 +1,7 @@
 # ProyectoDev
 
 Tecnologías utilizadas
-• 	Frontend: Angular 17 + Angular Material
+• 	Frontend: Angular 20 + Angular Material
 • 	Backend: Node.js + Express
 • 	Base de datos: MySQL
 • 	Autenticación: JWT
