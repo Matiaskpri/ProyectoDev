@@ -1,34 +1,39 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+
 
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login {
-  loginForm: FormGroup;
+  email = '';
+  password = '';
+  error = '';
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login() {
+    this.http.post<{ token: string }>('http://localhost:3000/api/login', {
+      email: this.email,
+      password: this.password
+    }).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/listado']); //  Redirige al listado
+      },
+      error: () => {
+        this.error = 'Credenciales inválidas';
+      }
     });
   }
-
-  onSubmit() {
-    if (this.loginForm.valid) {
-      // Handle login logic
-       const { email, password } = this.loginForm.value;
-      console.log('Login con:', email, password);
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
-
-    }
-
 }
 
 

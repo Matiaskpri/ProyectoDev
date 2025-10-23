@@ -7,6 +7,15 @@
     <p><strong>Posición:</strong> {{ jugador.posicion }}</p>
     <p><strong>Equipo:</strong> {{ jugador.equipo }}</p>
     <p><strong>Valor:</strong> {{ jugador.valor }} millones</p>
+    <button [routerLink]="['/editar', jugador?.id]">Editar jugador</button>
+    <button (click)="eliminarJugador()">Eliminar jugador</button>
     <button routerLink="/listado">Volver al listado</button>
   </div>
+
+  <div *ngIf="!jugador">
+  <p>Cargando jugador o no encontrado...</p>
+  <button routerLink="/listado">Volver al listado</button>
+</div>
+
+
 </div>

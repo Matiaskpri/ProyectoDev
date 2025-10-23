@@ -1,0 +1,27 @@
+.paginacion {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.filtro-club {
+  margin-top: 30px;
+}
+
+.filtro-section, .paginacion-section, .exportar-section {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.jugador-card {
+  margin-bottom: 15px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

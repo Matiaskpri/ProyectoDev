@@ -1,38 +1,78 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JugadorService, Jugador } from '../services/jugador.service';
+import { ActivatedRoute,RouterModule, Router } from '@angular/router';
+
+
 
 
 @Component({
   selector: 'app-formulario-jugador',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterModule],
   templateUrl: './formulario-jugador.html',
   styleUrl: './formulario-jugador.css'
 })
 export class FormularioJugador {
-
   jugadorForm: FormGroup;
-  modoEdicion = false;
+  modoEdicion: boolean = false;
+  idJugador?: number;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private jugadorService: JugadorService
+  ) {
     this.jugadorForm = this.fb.group({
       nombre: ['', Validators.required],
-      edad: ['', [Validators.required, Validators.min(0)]],
+      posicion: ['', Validators.required],
       equipo: ['', Validators.required],
-      valor: ['', [Validators.required, Validators.min(0)]]
+      valor: [0, [Validators.required, Validators.min(0)]]
     });
   }
 
-  onSubmit() {
-    if (this.jugadorForm.valid) {
-      // Lógica para enviar el formulario
-      const jugador = this.jugadorForm.value;
-      console.log('Jugador enviado:', jugador);
-      // Acá podrías llamar a tu servicio para guardar el jugador
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.modoEdicion = true;
+      this.idJugador = +id;
+      this.jugadorService.getJugador(this.idJugador).subscribe({
+        next: (jugador) => {
+          this.jugadorForm.patchValue(jugador);
+        },
+        error: (err) => {
+          console.error('Error al cargar jugador:', err);
+        }
+      });
     }
-    else {
-      this.jugadorForm.markAllAsTouched();
-    }
-
   }
 
+  onSubmit() {
+    const jugador: Jugador = this.jugadorForm.value;
+
+    if (this.modoEdicion && this.idJugador !== undefined) {
+      // Modo edición: actualizar jugador
+      this.jugadorService.actualizarJugador(this.idJugador, jugador).subscribe({
+        next: () => {
+          console.log('Jugador actualizado');
+          this.router.navigate(['/listado']);
+        },
+        error: (err) => {
+          console.error('Error al actualizar jugador:', err);
+        }
+      });
+    } else {
+      // Modo creación: crear nuevo jugador (sin id)
+      this.jugadorService.crearJugador(jugador).subscribe({
+        next: () => {
+          console.log('Jugador creado');
+          this.router.navigate(['/listado']);
+        },
+        error: (err) => {
+          console.error('Error al crear jugador:', err);
+        }
+      });
+    }
+  }
 }
+
