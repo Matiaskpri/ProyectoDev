@@ -1,7 +1,30 @@
-<p>listado-jugadores works!</p>
 <div class="listado-container">
+  <div class="filtro-club">
+    <h3>Filtrar por club</h3>
+
+    <mat-form-field appearance="fill">
+    <mat-label>Nombre del club</mat-label>
+    <input type="text" matInput [formControl]="clubControl" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let club of clubesFiltrados | async" [value]="club">
+        {{ club }}
+    </mat-option>
+    </mat-autocomplete>
+    </mat-form-field>
+
+    <button (click)="filtrarClub(clubControl.value || '')">Filtrar</button>
+  </div>
+
+   <!-- Mensaje de filtro activo -->
+  <div *ngIf="filtroActivo" class="filtro-activo">
+    <p>Mostrando jugadores del club: <strong>{{ clubFiltrado }}</strong></p>
+    <button (click)="quitarFiltro()">Ver listado completo de los jugadores</button>
+  </div>
+
   <h2>Listado de jugadores</h2>
   <button routerLink="/nuevo">Agregar nuevo jugador</button>
+
+   
 
   <ul class="jugadores-lista">
     <!-- Acá se va a renderizar la lista -->
@@ -10,4 +33,16 @@
       <button *ngIf="jugador.id !== undefined" (click)="verDetalle(jugador.id)">Ver detalle</button>
     </li>
   </ul>
+  
+  
+
+  <div class="paginacion">
+    <button (click)="paginaAnterior()" [disabled]="paginaActual === 1">Anterior</button>
+    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button (click)="siguientePagina()" [disabled]="paginaActual === totalPaginas">Siguiente</button>
+  </div>
+  <div class="exportar-excel">
+    <button (click)="exportarAExcel()">Exportar a Excel</button>
+    <button (click)="exportarACSV()">Exportar a CSV</button>
+  </div>
 </div>
