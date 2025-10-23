@@ -1,9 +1,9 @@
-<p>navbar works!</p>
 <nav class="navbar">
   <div class="logo">FIFA Manager</div>
   <ul class="nav-links">
+    <li><a routerLink="/">Inicio</a></li> 
     <li><a routerLink="/listado">Jugadores</a></li>
     <li><a routerLink="/nuevo">Nuevo jugador</a></li>
-    <li><a routerLink="/">Cerrar sesión</a></li>
+    <li><a href="#" (click)="cerrarSesion()">Cerrar sesión</a></li>
   </ul>
 </nav>

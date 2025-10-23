@@ -1,6 +1,10 @@
-<p>pagina-error works!</p>
 <div class="error-container">
   <h2>404 - Página no encontrada</h2>
-  <p>La ruta que intentaste acceder no existe.</p>
-  <button routerLink="/">Volver al inicio</button>
+  <p>La ruta que intentaste no existe.</p>
+
+  <div class="botones">
+    <button (click)="volverAlLogin()">Volver al inicio</button>
+    <button *ngIf="logueado" (click)="irAlListado()">Ir al listado</button>
+  </div>
 </div>
+

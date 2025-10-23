@@ -1,6 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { JugadorService, Jugador } from '../services/jugador.service';
+import { Router } from '@angular/router';
+
+
+
+
+
 
 
 @Component({
@@ -10,10 +18,32 @@ import { RouterModule } from '@angular/router';
   styleUrl: './detalle-jugador.css'
 })
 export class DetalleJugador {
-  jugador = {
-    nombre: 'string',
-    posicion: 'string',
-    equipo: 'string',
-    valor: 0,
-  };
+   jugador?: Jugador;
+
+  constructor(private route: ActivatedRoute, private jugadorService: JugadorService, private router: Router) {}
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.jugadorService.getJugador(+id).subscribe({
+        next: (data) => this.jugador = data,
+        error: (err) => console.error('Error al cargar jugador:', err)
+      });
+    }
+  }
+
+  eliminarJugador() {
+    if (this.jugador?.id && window.confirm('¿Estás seguro de que querés eliminar este jugador?'))
+ {
+      this.jugadorService.eliminarJugador(this.jugador.id).subscribe({
+        next: () => {
+          console.log('Jugador eliminado');
+          this.router.navigate(['/listado']);
+        },
+        error: (err) => {
+          console.error('Error al eliminar jugador:', err);
+        }
+      });
+    }
+  }
 }
